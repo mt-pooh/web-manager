@@ -8,10 +8,14 @@ type HotelId = string;
  */
 type Date = string;
 
-export type TyHotel = {
+type TyHotel = {
     hotelId: HotelId;
     startDate: Date;
     endDate: Date;
 };
 
-export type TyHotelList = TyHotel[];
+type TyHotelList = TyHotel[];
+
+export type TypeSchema = {
+    TyHotelList: TyHotelList;
+};
