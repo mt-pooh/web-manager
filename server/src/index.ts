@@ -5,6 +5,8 @@ import cors from 'cors';
 import * as fs from 'fs';
 import path from 'path';
 import config from '../config.json';
+import validateJson from './validate';
+import TypeSchema from '../schema/TypeSchema.json';
 
 const app = express();
 app.use(express.json());
@@ -41,12 +43,16 @@ const loadData = (fileName: string) => {
         `${config.tsvSaveDir}/${path.parse(fileName).name}.tsv`,
         tsvData
     );
-    console.log(tsvData);
-    console.log(data);
+    return [data, tsvData];
 };
 const postFile = (req: express.Request, res: express.Response) => {
-    loadData(req.file.filename);
-    res.status(200).send('ok\n');
+    const [jsonData] = loadData(req.file.filename);
+    const errors = validateJson(jsonData, TypeSchema.properties.TyHotelList);
+    if (errors) {
+        res.status(200).send(errors);
+        return;
+    }
+    res.status(200).send('OK');
 };
 
 // app.get("/table", (_req, res) => {
