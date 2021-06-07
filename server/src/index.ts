@@ -40,6 +40,11 @@ const loadData = (fileName: string) => {
     const wb = XLSX.readFile(fileName);
     /* generate array of arrays */
     const data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    return data;
+};
+
+const saveTsvData = (fileName: string) => {
+    const wb = XLSX.readFile(fileName);
     /* save tsv file */
     const tsvData = XLSX.utils.sheet_to_csv(wb.Sheets[wb.SheetNames[0]], {
         FS: '\t',
@@ -48,7 +53,6 @@ const loadData = (fileName: string) => {
         `${config.tsvSaveDir}/${path.parse(fileName).name}.tsv`,
         tsvData
     );
-    return [data, tsvData];
 };
 const postFile = (
     req: express.Request<
@@ -56,9 +60,9 @@ const postFile = (
         {},
         operations['post-table']['requestBody']['content']['multipart/form-data']
     >,
-    res: express.Response
+    res: express.Response // TODO: 型をきちんと付ける
 ) => {
-    const [jsonData] = loadData(req.file.filename);
+    const jsonData = loadData(path.join(config.uploadDir, req.file.filename));
     const schema: StringKeyObject = TypeSchema.properties;
     const errors = validateJson(jsonData, schema[req.body.tableName]);
     if (errors) {
@@ -66,6 +70,7 @@ const postFile = (
         return;
     }
     console.log('valid!!');
+    saveTsvData(path.join(config.uploadDir, req.file.filename));
     res.status(200).send('OK');
 };
 
