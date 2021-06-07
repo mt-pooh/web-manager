@@ -7,7 +7,12 @@ import path from 'path';
 import config from '../config.json';
 import validateJson from './validate';
 import TypeSchema from '../schema/TypeSchema.json';
+import { operations } from '../openapi/openapi';
 
+interface StringKeyObject {
+    // 今回はstring
+    [key: string]: any;
+}
 const app = express();
 app.use(express.json());
 app.use(express.text());
@@ -45,21 +50,24 @@ const loadData = (fileName: string) => {
     );
     return [data, tsvData];
 };
-const postFile = (req: express.Request, res: express.Response) => {
+const postFile = (
+    req: express.Request<
+        {},
+        {},
+        operations['post-table']['requestBody']['content']['multipart/form-data']
+    >,
+    res: express.Response
+) => {
     const [jsonData] = loadData(req.file.filename);
-    const errors = validateJson(jsonData, TypeSchema.properties.TyHotelList);
+    const schema: StringKeyObject = TypeSchema.properties;
+    const errors = validateJson(jsonData, schema[req.body.tableName]);
     if (errors) {
         res.status(200).send(errors);
         return;
     }
+    console.log('valid!!');
     res.status(200).send('OK');
 };
-
-// app.get("/table", (_req, res) => {
-//   res.json({
-//     tableList: [{name: "test", type: "excel", displayName: "テスト"}]
-//   });
-// });
 
 app.post('/table', uploader.single('file'), (req, res) => {
     console.log(`${req.file.originalname} is uploaded!!`);

@@ -1,0 +1,120 @@
+openapi: 3.0.3
+info:
+  title: web manager
+  version: "1.0"
+servers:
+  - url: "http://localhost:3000"
+paths:
+  /table:
+    post:
+      summary: Upload a table data
+      operationId: post-table
+      description: Upload Excel file
+      responses:
+        "200":
+          description: table Uploaded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                required:
+                  - status
+              examples:
+                OK:
+                  value:
+                    status: OK
+        "400":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date-time
+                fileName:
+                  type: string
+                  format: binary
+                tableName:
+                  type: string
+                  description: table name to be determined at a glance
+              required:
+                - date
+                - fileName
+                - tableName
+  /tables:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tableList:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: ""
+                          example: tyHotel
+                        type:
+                          type: string
+                          description: データの形式
+                          example: excel
+                        displayName:
+                          type: string
+                          description: 画面に表示する項目名
+                          example: 特集施設
+                      required:
+                        - name
+                        - type
+                        - displayName
+                required:
+                  - tableList
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      operationId: get-tables
+      description: Get table lists
+components:
+  schemas:
+    Error:
+      title: Error
+      type: object
+      description: error message
+      properties:
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+            required:
+              - field
+              - message
+      required:
+        - message
+        - errors

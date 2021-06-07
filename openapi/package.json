@@ -1,0 +1,12 @@
+{
+  "name": "web-manager-openapi",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "generate-schema": "openapi-typescript ./web-manager.yaml --output openapi.ts",
+    "distribution": "cp ./openapi.ts ./web-manager.yaml ../client/openapi && cp ./openapi.ts ./web-manager.yaml ../server/openapi"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^3.3.1"
+  }
+}
