@@ -19,11 +19,19 @@
                         "type": "string"
                     }
                 },
+                "required": [
+                    "endDate",
+                    "hotelId",
+                    "startDate"
+                ],
                 "type": "object"
             },
             "type": "array"
         }
     },
+    "required": [
+        "TyHotelList"
+    ],
     "type": "object"
 }
 

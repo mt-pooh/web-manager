@@ -7,7 +7,7 @@
     },
     "scripts": {
         "schema": "yarn schema:generate && yarn schema:distribution",
-        "schema:generate": "typescript-json-schema --strictNullChecks true --noExtraProps true --tsNodeRegister true src/type.ts TypeSchema > ./build/TypeSchema.json",
+        "schema:generate": "typescript-json-schema --strictNullChecks true --noExtraProps true --tsNodeRegister true --required true src/type.ts TypeSchema > ./build/TypeSchema.json",
         "schema:distribution": "cp -r ./build/* ../server/schema/"
     },
     "devDependencies": {
