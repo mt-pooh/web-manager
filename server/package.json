@@ -8,6 +8,8 @@
     "dev": "nodemon  --exec ts-node src/index.ts"
   },
   "dependencies": {
+    "ajv": "^8.6.0",
+    "ajv-formats": "^2.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-openapi-validator": "^4.12.11",

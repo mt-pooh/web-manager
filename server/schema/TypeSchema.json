@@ -1,0 +1,29 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "TyHotelList": {
+            "items": {
+                "additionalProperties": false,
+                "properties": {
+                    "endDate": {
+                        "format": "date",
+                        "type": "string"
+                    },
+                    "hotelId": {
+                        "pattern": "^[0-9]{7}$",
+                        "type": "string"
+                    },
+                    "startDate": {
+                        "format": "date",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "type": "object"
+}
+

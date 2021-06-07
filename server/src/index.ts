@@ -2,9 +2,9 @@ import express from 'express';
 import multer from 'multer';
 import XLSX from 'xlsx';
 import cors from 'cors';
-import fs from 'fs';
+import * as fs from 'fs';
 import path from 'path';
-import config from './config.json';
+import config from '../config.json';
 
 const app = express();
 app.use(express.json());
@@ -32,9 +32,7 @@ const uploader = multer({ storage });
 const loadData = (fileName: string) => {
     const wb = XLSX.readFile(fileName);
     /* generate array of arrays */
-    const data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {
-        header: 1,
-    });
+    const data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
     /* save tsv file */
     const tsvData = XLSX.utils.sheet_to_csv(wb.Sheets[wb.SheetNames[0]], {
         FS: '\t',
