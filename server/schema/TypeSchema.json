@@ -2,6 +2,30 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "properties": {
+        "MemberInfoList": {
+            "items": {
+                "additionalProperties": false,
+                "properties": {
+                    "email": {
+                        "format": "email",
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "email",
+                    "id",
+                    "name"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
         "TyHotelList": {
             "items": {
                 "additionalProperties": false,
@@ -30,6 +54,7 @@
         }
     },
     "required": [
+        "MemberInfoList",
         "TyHotelList"
     ],
     "type": "object"
