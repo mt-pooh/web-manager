@@ -62,6 +62,10 @@ const postFile = (
     >,
     res: express.Response // TODO: 型をきちんと付ける
 ) => {
+    if (!req.file) {
+        res.status(400).send('file is None');
+        return;
+    }
     const jsonData = loadData(path.join(config.uploadDir, req.file.filename));
     const schema: StringKeyObject = TypeSchema.properties;
     const errors = validateJson(jsonData, schema[req.body.tableName]);
@@ -75,7 +79,11 @@ const postFile = (
 };
 
 app.post('/table', uploader.single('file'), (req, res) => {
-    console.log(`${req.file.originalname} is uploaded!!`);
+    if (!req.file) {
+        console.log('file is None');
+    } else {
+        console.log(`${req.file.originalname} is uploaded!!`);
+    }
     return postFile(req, res);
 });
 
