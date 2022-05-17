@@ -29,6 +29,12 @@ Node.js(Express)，excelのvalidationには[Ajv](https://ajv.js.org/)を使用
 npm install -g yarn
 ```
 
+- yarn install
+```
+cd client && yarn install
+cd server && yarn install
+cd definitions && yarn install
+```
 - 起動
 ```
 cd cliet && yarn dev
