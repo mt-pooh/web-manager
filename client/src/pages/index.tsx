@@ -12,7 +12,7 @@ const App: React.VFC = () => {
     const [file, setFile] = useState<File>();
     const [fileName, setFileName] = useState<string>();
     const [message, setMessage] = useState<string>('');
-    const [isError, setError] = useState<boolean>();
+    const [isError, setError] = useState<boolean>(false);
     const [submittedItem, setSubmittedItem] = useState<string>();
 
     const saveFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +33,8 @@ const App: React.VFC = () => {
             setMessage(JSON.stringify(res.data));
             if (Array.isArray(res.data)) {
                 setError(true);
+            } else {
+                setError(false);
             }
             console.log(res.data);
         } catch (ex) {
