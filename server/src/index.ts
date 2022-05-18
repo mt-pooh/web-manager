@@ -70,7 +70,7 @@ const postFile = (
     const schema: StringKeyObject = TypeSchema.properties;
     const errors = validateJson(jsonData, schema[req.body.tableName]);
     if (errors) {
-        res.status(400).send(errors);
+        res.status(200).send(errors);
         return;
     }
     console.log('valid!!');
